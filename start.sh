@@ -13,17 +13,36 @@ echo "[OK] Docker disponible."
 # --- Piston: crear o arrancar ---
 if ! docker inspect piston > /dev/null 2>&1; then
     echo "[Piston] Creando contenedor por primera vez..."
-    docker run -d --name piston --privileged -p 2000:2000 ghcr.io/engineer-man/piston
+    docker volume create piston_data > /dev/null 2>&1 || true
+    docker run -d --name piston --privileged -v piston_data:/piston -p 2000:2000 ghcr.io/engineer-man/piston
 
     echo "[Piston] Esperando que arranque..."
     sleep 5
 
-    echo "[Piston] Instalando runtimes (puede tardar varios minutos)..."
-    docker exec piston piston install python
-    docker exec piston piston install javascript
-    docker exec piston piston install java
-    docker exec piston piston install c++
-    docker exec piston piston install csharp
+    echo "[Piston] Esperando que la API arranque..."
+    sleep 10
+
+    echo "[Piston] Instalando runtimes via API, puede tardar varios minutos..."
+    curl -s -X POST http://localhost:2000/api/v2/packages \
+        -H "Content-Type: application/json" \
+        -d '{"language":"python","version":"3.10.0"}' > /dev/null
+    echo "[Piston]   python OK"
+    curl -s -X POST http://localhost:2000/api/v2/packages \
+        -H "Content-Type: application/json" \
+        -d '{"language":"javascript","version":"18.15.0"}' > /dev/null
+    echo "[Piston]   javascript OK"
+    curl -s -X POST http://localhost:2000/api/v2/packages \
+        -H "Content-Type: application/json" \
+        -d '{"language":"java","version":"15.0.2"}' > /dev/null
+    echo "[Piston]   java OK"
+    curl -s -X POST http://localhost:2000/api/v2/packages \
+        -H "Content-Type: application/json" \
+        -d '{"language":"c++","version":"10.2.0"}' > /dev/null
+    echo "[Piston]   c++ OK"
+    curl -s -X POST http://localhost:2000/api/v2/packages \
+        -H "Content-Type: application/json" \
+        -d '{"language":"csharp","version":"6.12.0"}' > /dev/null
+    echo "[Piston]   csharp OK"
     echo "[Piston] Runtimes instalados."
 else
     docker start piston > /dev/null 2>&1 || true

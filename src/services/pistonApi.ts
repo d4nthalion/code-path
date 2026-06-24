@@ -7,10 +7,57 @@ export interface PistonFile {
   content: string;
 }
 
-// Self-hosted Piston (set VITE_PISTON_URL=http://localhost:2000/api/v2)
-const PISTON_URL = import.meta.env.VITE_PISTON_URL as string | undefined;
-// Judge0 via RapidAPI (set VITE_JUDGE0_KEY)
+// Piston self-hosted: proxied through Vite dev server to avoid CORS
+const PISTON_PROXY = '/piston';
+// Judge0 via RapidAPI
 const JUDGE0_KEY = import.meta.env.VITE_JUDGE0_KEY as string | undefined;
+const USE_PISTON = !!import.meta.env.VITE_PISTON_URL;
+
+// --- Piston ---
+
+interface PistonRuntime { language: string; version: string; aliases: string[]; }
+let runtimesCache: PistonRuntime[] | null = null;
+
+async function getPistonVersion(pistonName: string): Promise<string> {
+  if (!runtimesCache) {
+    const res = await fetch(`${PISTON_PROXY}/runtimes`);
+    if (!res.ok) throw new Error(`Piston runtimes error: ${res.status}`);
+    runtimesCache = await res.json();
+  }
+  const match = runtimesCache!.find(
+    r => r.language === pistonName || r.aliases?.includes(pistonName)
+  );
+  if (!match) throw new Error(`Runtime no instalado: ${pistonName}. Asegúrate de haber ejecutado start.bat para instalar los runtimes.`);
+  return match.version;
+}
+
+async function executePiston(
+  pistonName: string,
+  files: PistonFile[],
+  stdin = ''
+): Promise<ExecutionResult> {
+  const version = await getPistonVersion(pistonName);
+  const res = await fetch(`${PISTON_PROXY}/execute`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ language: pistonName, version, files, stdin }),
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`Piston error: ${res.status} — ${body}`);
+  }
+
+  const data = await res.json();
+  const run = data.run ?? {};
+  const compile = data.compile ?? {};
+  return {
+    stdout: run.stdout ?? '',
+    stderr: run.stderr ?? compile.stderr ?? '',
+    exitCode: run.code ?? compile.code ?? -1,
+    compile_output: compile.output ?? '',
+  };
+}
 
 // --- Judge0 ---
 
@@ -42,58 +89,11 @@ async function executeJudge0(
 
   const data = await res.json();
   const exitCode = data.exit_code ?? (data.status?.id === 3 ? 0 : 1);
-
   return {
     stdout: data.stdout ?? '',
     stderr: data.stderr ?? data.compile_output ?? '',
     exitCode,
     compile_output: data.compile_output ?? '',
-  };
-}
-
-// --- Self-hosted Piston ---
-
-interface PistonRuntime { language: string; version: string; aliases: string[]; }
-let runtimesCache: PistonRuntime[] | null = null;
-
-async function getPistonVersion(pistonName: string): Promise<string> {
-  if (!runtimesCache) {
-    const res = await fetch(`${PISTON_URL}/runtimes`);
-    if (!res.ok) throw new Error(`Piston runtimes error: ${res.status}`);
-    runtimesCache = await res.json();
-  }
-  const match = runtimesCache!.find(
-    r => r.language === pistonName || r.aliases?.includes(pistonName)
-  );
-  if (!match) throw new Error(`Runtime not found: ${pistonName}`);
-  return match.version;
-}
-
-async function executePiston(
-  pistonName: string,
-  files: PistonFile[],
-  stdin = ''
-): Promise<ExecutionResult> {
-  const version = await getPistonVersion(pistonName);
-  const res = await fetch(`${PISTON_URL}/execute`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ language: pistonName, version, files, stdin }),
-  });
-
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(`Piston error: ${res.status} — ${body}`);
-  }
-
-  const data = await res.json();
-  const run = data.run ?? {};
-  const compile = data.compile ?? {};
-  return {
-    stdout: run.stdout ?? '',
-    stderr: run.stderr ?? compile.stderr ?? '',
-    exitCode: run.code ?? compile.code ?? -1,
-    compile_output: compile.output ?? '',
   };
 }
 
@@ -105,13 +105,9 @@ export async function executeCode(
   files: PistonFile[],
   stdin = ''
 ): Promise<ExecutionResult> {
-  if (PISTON_URL) {
-    return executePiston(pistonName, files, stdin);
-  }
-  if (JUDGE0_KEY) {
-    return executeJudge0(langId, files, stdin);
-  }
+  if (USE_PISTON) return executePiston(pistonName, files, stdin);
+  if (JUDGE0_KEY) return executeJudge0(langId, files, stdin);
   throw new Error(
-    'No hay proveedor de ejecución configurado. Añade VITE_JUDGE0_KEY (RapidAPI) o VITE_PISTON_URL (self-hosted) en el archivo .env'
+    'No hay proveedor de ejecución configurado. Añade VITE_JUDGE0_KEY o ejecuta start.bat con VITE_PISTON_URL en el .env'
   );
 }
