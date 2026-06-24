@@ -58,7 +58,7 @@ parseInt("3.7")   // 3
 parseFloat("3.7") // 3.7</code></pre>
 
 <h2>Salida por consola</h2>
-<p>Para que un programa comunique sus resultados al usuario, necesita instrucciones de <strong>salida</strong>. En JavaScript, <code>console.log()</code> imprime en la consola del navegador o de Node.js. Los <strong>template literals</strong> (cadenas con backtick <code>`</code>) permiten incrustar expresiones directamente en el texto.</p>
+<p>Para que un programa comunique sus resultados al usuario, necesita instrucciones de <strong>salida</strong>. En JavaScript, <code>console.log()</code> imprime en la consola del navegador o de Node.js. Los <strong>template literals</strong> (cadenas con backtick <code>\`</code>) permiten incrustar expresiones directamente en el texto.</p>
 <pre><code>console.log("Hola");
 console.log(\`Nombre: \${nombre}, Edad: \${edad}\`);  // template literal
 console.log(typeof nombre);  // "string"</code></pre>
