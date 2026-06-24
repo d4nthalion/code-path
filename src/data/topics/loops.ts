@@ -3,6 +3,7 @@ import type { Topic } from '../../types';
 const theory = {
   javascript: `
 <h2>for clásico</h2>
+<p>Los <strong>bucles</strong> (o estructuras repetitivas) permiten ejecutar un bloque de instrucciones un número determinado o indeterminado de veces. El bucle <code>for</code> se usa cuando se conoce de antemano el número exacto de repeticiones. Se compone de tres partes separadas por punto y coma: <strong>inicialización</strong> (se ejecuta una sola vez al inicio), <strong>condición</strong> (se evalúa antes de cada iteración; si es falsa, el bucle termina) e <strong>incremento</strong> (se ejecuta al final de cada iteración, normalmente para avanzar el contador).</p>
 <pre><code>// Estructura: for (inicio; condición; incremento)
 for (let i = 1; i <= 5; i++) {
   console.log(i);
@@ -19,6 +20,7 @@ for (let i = 0; i <= 20; i += 2) {
 }</code></pre>
 
 <h2>while</h2>
+<p>El bucle <code>while</code> se usa cuando <strong>no se sabe de antemano</strong> cuántas veces se repetirá el bloque, y es posible que no deba ejecutarse ninguna vez. La condición se evalúa <strong>antes</strong> de entrar al bucle; si desde el inicio es falsa, el bloque no se ejecuta ni una vez. Es fundamental que dentro del bucle haya alguna instrucción que en algún momento haga que la condición sea falsa; de lo contrario se producirá un <strong>bucle infinito</strong>.</p>
 <pre><code>// Se ejecuta MIENTRAS la condición sea true
 let n = 1;
 while (n <= 5) {
@@ -34,6 +36,7 @@ while (suma < 100) {
 console.log(\`Sumados \${i-1} números: \${suma}\`);</code></pre>
 
 <h2>do...while</h2>
+<p>El bucle <code>do...while</code> garantiza que el bloque se ejecute <strong>al menos una vez</strong>, ya que la condición se evalúa <strong>al final</strong> del bloque. Es útil para menús interactivos o cuando se necesita leer una entrada al menos una vez antes de comprobar si es válida.</p>
 <pre><code>// Se ejecuta AL MENOS UNA VEZ
 let opcion;
 do {
@@ -41,6 +44,7 @@ do {
 } while (opcion !== "salir");</code></pre>
 
 <h2>break y continue</h2>
+<p><code>break</code> detiene el bucle completamente y el programa continúa tras él. <code>continue</code> salta el resto del bloque en la iteración actual y pasa directamente a la siguiente. Ambas instrucciones rompen el flujo normal del bucle y deben usarse con moderación para mantener el código legible.</p>
 <pre><code>for (let i = 1; i <= 10; i++) {
   if (i % 2 === 0) continue;  // salta los pares
   if (i > 7) break;           // para al llegar a 8
@@ -48,6 +52,7 @@ do {
 }</code></pre>
 
 <h2>Bucles anidados</h2>
+<p>Un <strong>bucle anidado</strong> es un bucle dentro de otro. Por cada iteración del bucle exterior, el bucle interior se ejecuta completo. Se usan para trabajar con estructuras bidimensionales como matrices o para generar patrones. El número total de iteraciones es el producto del número de iteraciones de cada bucle.</p>
 <pre><code>// Tabla de multiplicar completa
 for (let i = 1; i <= 9; i++) {
   for (let j = 1; j <= 9; j++) {
@@ -59,6 +64,7 @@ for (let i = 1; i <= 9; i++) {
 
   python: `
 <h2>for con range()</h2>
+<p>En Python el bucle <code>for</code> itera sobre cualquier secuencia (lista, string, rango...). La función <code>range()</code> genera secuencias de números: <code>range(n)</code> va de 0 a n-1; <code>range(inicio, fin)</code> va de inicio a fin-1; <code>range(inicio, fin, paso)</code> avanza de <code>paso</code> en <code>paso</code>. Para iterar de forma decremental se usa un paso negativo.</p>
 <pre><code># range(fin): 0 hasta fin-1
 for i in range(5):
     print(i)  # 0, 1, 2, 3, 4
@@ -76,6 +82,7 @@ for i in range(10, 0, -1):
     print(i)  # 10, 9, 8... 1</code></pre>
 
 <h2>while</h2>
+<p>El bucle <code>while</code> repite el bloque mientras la condición sea verdadera. Úsalo cuando no conozcas de antemano cuántas iteraciones necesitas. Los <strong>acumuladores</strong> (variables que suman valores sucesivos) y los <strong>contadores</strong> (que cuentan iteraciones) son los elementos auxiliares más comunes dentro de un <code>while</code>.</p>
 <pre><code>n = 1
 while n <= 5:
     print(n)
@@ -90,6 +97,7 @@ while suma < 100:
 print(f"Sumados {i-1} números: {suma}")</code></pre>
 
 <h2>break, continue y else en bucles</h2>
+<p>Python tiene una característica única: el bloque <code>else</code> en bucles se ejecuta solo si el bucle terminó de forma <strong>natural</strong> (sin un <code>break</code>). Esto es útil para detectar si se encontró o no un elemento buscado.</p>
 <pre><code>for i in range(1, 11):
     if i % 2 == 0:
         continue  # salta pares

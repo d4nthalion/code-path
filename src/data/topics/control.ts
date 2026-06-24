@@ -3,6 +3,7 @@ import type { Topic } from '../../types';
 const theory = {
   javascript: `
 <h2>if / else if / else</h2>
+<p>La estructura condicional <strong>if/else</strong> permite que el programa tome decisiones: ejecuta unas instrucciones u otras según se cumpla o no una condición. El <code>else if</code> permite encadenar múltiples condiciones. Las condiciones se evalúan en orden, y solo se ejecuta el primer bloque cuya condición sea verdadera.</p>
 <pre><code>let nota = 7.5;
 
 if (nota >= 9) {
@@ -16,10 +17,12 @@ if (nota >= 9) {
 }</code></pre>
 
 <h2>Operador ternario</h2>
+<p>El <strong>operador ternario</strong> es una forma compacta de escribir un if/else cuando se quiere asignar uno de dos valores según una condición. Sintaxis: <code>condición ? valor_si_verdad : valor_si_falso</code>. Úsalo solo para expresiones simples; anidarlo dificulta la lectura.</p>
 <pre><code>let acceso = edad >= 18 ? "Permitido" : "Denegado";
 // Útil para asignaciones simples. Evitar anidarlo.</code></pre>
 
 <h2>switch</h2>
+<p>La estructura <strong>switch</strong> evalúa una expresión y ejecuta el bloque cuyo <code>case</code> coincida con el valor. Es especialmente útil cuando hay muchos casos posibles para la misma variable, ya que resulta más legible que una cadena larga de <code>else if</code>. El <code>break</code> es obligatorio en cada caso para evitar que la ejecución continúe en el siguiente bloque (<em>fall-through</em>). Se pueden agrupar varios <code>case</code> juntos si deben ejecutar el mismo código.</p>
 <pre><code>let dia = "lunes";
 switch (dia) {
   case "lunes":
@@ -40,12 +43,13 @@ switch (dia) {
 }</code></pre>
 
 <h2>Año bisiesto</h2>
-<p>Un año es bisiesto si es divisible por 4, EXCEPTO los divisibles por 100, a no ser que también sean divisibles por 400.</p>
+<p>Es un ejemplo clásico de condición compuesta. La regla tiene tres niveles: 1) divisible por 4 (años normales), 2) los divisibles por 100 <em>no</em> son bisiestos (excepción), 3) los divisibles por 400 <em>sí</em> son bisiestos (excepción de la excepción). Se expresa con <code>&amp;&amp;</code> y <code>||</code> en una sola condición.</p>
 <pre><code>function esBisiesto(anio) {
   return (anio % 4 === 0 && anio % 100 !== 0) || anio % 400 === 0;
 }</code></pre>
 
 <h2>Cortocircuito y guardia</h2>
+<p>Los operadores <code>&amp;&amp;</code> y <code>||</code> usan <strong>evaluación de cortocircuito</strong>: si el primer operando determina el resultado, el segundo no se evalúa. El patrón <strong>guardia</strong> consiste en retornar o lanzar error al inicio de una función si los parámetros no son válidos, evitando el anidamiento excesivo.</p>
 <pre><code>// Guardia: retorno temprano para casos inválidos
 function dividir(a, b) {
   if (b === 0) return null;  // guardia
@@ -61,6 +65,7 @@ let saludo = nombre || "Invitado";</code></pre>
 
   python: `
 <h2>if / elif / else</h2>
+<p>En Python la indentación (sangrado) <strong>es obligatoria</strong> y define los bloques de código (no se usan llaves). Python usa <code>elif</code> en lugar de <code>else if</code>. El encadenamiento de comparaciones (<code>5 &lt;= nota &lt; 9</code>) es una característica única de Python que no existe en otros lenguajes.</p>
 <pre><code>nota = 7.5
 
 if nota >= 9:
@@ -73,9 +78,11 @@ else:
     print("Suspenso")</code></pre>
 
 <h2>Expresión condicional (ternario)</h2>
+<p>Python tiene su propio operador ternario con sintaxis más legible: <code>valor_si_verdad if condición else valor_si_falso</code>. La condición va en el medio, lo que algunos encuentran más natural en español.</p>
 <pre><code>acceso = "Permitido" if edad >= 18 else "Denegado"</code></pre>
 
 <h2>match (Python 3.10+)</h2>
+<p>La sentencia <code>match</code> es el equivalente moderno del <code>switch</code> en Python. Permite agrupar varios casos con <code>|</code> y usa <code>_</code> como caso por defecto. Es más potente que un switch tradicional: también puede hacer <em>pattern matching</em> estructural.</p>
 <pre><code>dia = "lunes"
 match dia:
     case "lunes" | "martes" | "miércoles" | "jueves" | "viernes":

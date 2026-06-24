@@ -3,6 +3,7 @@ import type { Topic } from '../../types';
 const theory = {
   javascript: `
 <h2>Clases y constructores</h2>
+<p>La <strong>Programación Orientada a Objetos (POO)</strong> organiza el código en torno a <strong>objetos</strong> que combinan datos (atributos) y comportamiento (métodos). Una <strong>clase</strong> es como un molde o plantilla: define cómo serán todos los objetos de ese tipo. Un <strong>objeto</strong> es una instancia concreta de una clase, creada con el operador <code>new</code>. El <strong>constructor</strong> es el método especial que se ejecuta automáticamente al crear el objeto y se usa para inicializar sus atributos.</p>
 <pre><code>class Persona {
   constructor(nombre, edad) {
     this.nombre = nombre;
@@ -22,6 +23,7 @@ const ana = new Persona("Ana", 25);
 console.log(ana.saludar());</code></pre>
 
 <h2>Encapsulamiento (campos privados)</h2>
+<p>El <strong>encapsulamiento</strong> consiste en ocultar los detalles internos de una clase, haciendo los atributos <strong>privados</strong>, y proporcionar métodos públicos controlados para acceder o modificarlos. Esto protege la integridad de los datos: nadie puede modificar el saldo directamente desde fuera, solo a través de los métodos que validan la operación. Los <strong>getters</strong> permiten leer un atributo privado; los <strong>setters</strong> permiten modificarlo con validaciones.</p>
 <pre><code>class CuentaBancaria {
   #saldo = 0;  // campo privado (ES2022)
 
@@ -44,6 +46,7 @@ console.log(ana.saludar());</code></pre>
 }</code></pre>
 
 <h2>Herencia</h2>
+<p>La <strong>herencia</strong> permite que una clase (subclase o clase hija) tome los atributos y métodos de otra (superclase o clase padre), usando la palabra clave <code>extends</code>. Modela relaciones "es-un": un Perro ES UN Animal. La subclase puede <strong>sobreescribir</strong> (override) métodos de la clase padre para cambiar su comportamiento. <code>super()</code> llama al constructor de la clase padre.</p>
 <pre><code>class Animal {
   constructor(nombre) { this.nombre = nombre; }
   sonido() { return "..."; }
@@ -63,6 +66,7 @@ const animales = [new Perro("Rex"), new Gato("Whiskers")];
 animales.forEach(a => console.log(\`\${a}: \${a.sonido()}\`));</code></pre>
 
 <h2>Métodos estáticos y getters/setters</h2>
+<p>El <strong>polimorfismo</strong> permite tratar objetos de distintas subclases de forma uniforme a través de una referencia de la clase base. Al llamar al mismo método (<code>sonido()</code>) en distintos objetos, cada uno responde diferente según su implementación. Los <strong>métodos estáticos</strong> pertenecen a la clase, no a las instancias; se llaman directamente sobre la clase. Los <strong>getters</strong> se acceden como propiedades (sin paréntesis) aunque internamente ejecutan lógica.</p>
 <pre><code>class Circulo {
   constructor(radio) { this._radio = radio; }
 

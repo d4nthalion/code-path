@@ -3,12 +3,14 @@ import type { Topic } from '../../types';
 const theory = {
   javascript: `
 <h2>Crear y acceder a arrays</h2>
+<p>Un <strong>array</strong> (o vector) es una colección de valores del mismo tipo agrupados bajo un único nombre. En lugar de declarar N variables separadas para datos relacionados, se crea una sola variable con N posiciones. Cada posición se identifica por su <strong>índice</strong>, que siempre comienza en <strong>0</strong> (no en 1). Así, el primer elemento está en el índice 0, el segundo en el 1, y el último en el índice <code>longitud - 1</code>.</p>
 <pre><code>const nums = [3, 7, 1, 9, 4, 6, 2, 8, 5];
 console.log(nums[0]);       // 3 (primer elemento)
 console.log(nums.length);   // 9
 console.log(nums[nums.length - 1]); // 5 (último)</code></pre>
 
 <h2>Métodos de mutación</h2>
+<p>Algunos métodos de array <strong>modifican el array original</strong> (mutación). Es importante saber cuáles mutan y cuáles no, especialmente en programación funcional donde se prefiere no modificar los datos originales. Los métodos <code>push/pop</code> trabajan al final del array; <code>unshift/shift</code> al principio.</p>
 <pre><code>const frutas = ["manzana", "banana"];
 frutas.push("cereza");      // añade al final → length 3
 frutas.pop();               // elimina del final → "cereza"
@@ -17,6 +19,7 @@ frutas.shift();             // elimina del inicio
 frutas.splice(1, 1, "kiwi"); // reemplaza 1 elemento en índice 1</code></pre>
 
 <h2>Búsqueda</h2>
+<p>La <strong>búsqueda secuencial</strong> (lineal) recorre el array elemento por elemento hasta encontrar el valor buscado. Su coste es O(n): en el peor caso revisa todos los elementos. JavaScript ofrece métodos como <code>indexOf</code>, <code>find</code> o <code>includes</code> que implementan esta búsqueda internamente.</p>
 <pre><code>const nums = [3, 7, 1, 9, 4];
 nums.includes(7);           // true
 nums.indexOf(9);            // 3 (índice)
@@ -25,6 +28,7 @@ nums.find(x => x > 5);     // 7 (primer elemento que cumple)
 nums.findIndex(x => x > 5);// 1 (índice del primero que cumple)</code></pre>
 
 <h2>Transformación (no mutan el original)</h2>
+<p>Los métodos <code>map</code>, <code>filter</code> y <code>reduce</code> son los más potentes de los arrays. <code>map</code> transforma cada elemento. <code>filter</code> selecciona elementos según una condición. <code>reduce</code> combina todos en un único valor. Ninguno modifica el array original, sino que devuelven uno nuevo. Se pueden encadenar para construir pipelines de procesamiento de datos.</p>
 <pre><code>const nums = [1, 2, 3, 4, 5];
 nums.map(x => x * 2);           // [2,4,6,8,10]
 nums.filter(x => x % 2 === 0);  // [2,4]
@@ -36,6 +40,7 @@ const copia = [...nums].sort((a, b) => a - b); // ascendente
 const desc  = [...nums].sort((a, b) => b - a); // descendente</code></pre>
 
 <h2>Arrays 2D (matrices)</h2>
+<p>Los <strong>arrays bidimensionales</strong> (matrices) se pueden pensar como tablas con filas y columnas. En JavaScript son arrays de arrays. Para acceder a un elemento se usan dos índices: primero la fila, luego la columna. Para recorrerlos completos se necesitan <strong>dos bucles anidados</strong>: el exterior para las filas y el interior para las columnas.</p>
 <pre><code>const matriz = [
   [1, 2, 3],
   [4, 5, 6],

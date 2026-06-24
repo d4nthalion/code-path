@@ -3,6 +3,7 @@ import type { Topic } from '../../types';
 const theory = {
   javascript: `
 <h2>Declaración de funciones</h2>
+<p>Las <strong>funciones</strong> (también llamadas subprogramas) agrupan un conjunto de instrucciones bajo un nombre y permiten ejecutarlas desde cualquier parte del programa con solo invocar ese nombre. Su utilidad principal es <strong>evitar la repetición de código</strong> y <strong>dividir un problema complejo</strong> en partes más pequeñas y manejables. En JavaScript existen tres formas de declarar funciones, con diferencias en cuanto a <em>hoisting</em> (elevación) y manejo del contexto <code>this</code>.</p>
 <pre><code>// Declarada (hoisting: se puede llamar antes de definirla)
 function saludar(nombre) {
   return \`Hola, \${nombre}!\`;
@@ -16,6 +17,7 @@ const multiplicar = (a, b) => a * b;
 const cuadrado = x => x * x;  // un parámetro: sin paréntesis</code></pre>
 
 <h2>Parámetros: valores por defecto y rest</h2>
+<p>Los <strong>parámetros</strong> son los datos de entrada que recibe la función; los <strong>argumentos</strong> son los valores concretos que se pasan al llamarla. Los <strong>parámetros por defecto</strong> permiten que la función sea llamada sin pasar todos los argumentos. El operador <strong>rest</strong> (<code>...</code>) agrupa un número variable de argumentos en un array.</p>
 <pre><code>function potencia(base, exp = 2) {
   return base ** exp;
 }
@@ -28,6 +30,7 @@ function sumarTodo(...nums) {
 sumarTodo(1, 2, 3, 4, 5);  // 15</code></pre>
 
 <h2>Retorno múltiple y desestructuración</h2>
+<p>La instrucción <code>return</code> finaliza la ejecución de la función y devuelve un valor al punto donde fue llamada. Una función sin <code>return</code> (o con <code>return</code> sin valor) devuelve <code>undefined</code>. Para devolver varios valores se puede retornar un objeto o array y desestructurarlo al llamar.</p>
 <pre><code>function minMax(arr) {
   return { min: Math.min(...arr), max: Math.max(...arr) };
 }
@@ -35,6 +38,7 @@ const { min, max } = minMax([3, 1, 9, 2]);
 console.log(min, max);  // 1 9</code></pre>
 
 <h2>Funciones como valores (orden superior)</h2>
+<p>En JavaScript las funciones son <strong>ciudadanos de primera clase</strong>: se pueden asignar a variables, pasar como argumentos a otras funciones o devolverlas como resultado. Las <strong>funciones de orden superior</strong> son aquellas que reciben o devuelven otras funciones. Este concepto es la base de la programación funcional.</p>
 <pre><code>function aplicar(fn, valor) {
   return fn(valor);
 }
@@ -48,6 +52,7 @@ const doble = crearMultiplicador(2);
 doble(7);  // 14</code></pre>
 
 <h2>Recursión</h2>
+<p>Una función <strong>recursiva</strong> es aquella que se llama a sí misma. Todo algoritmo recursivo debe tener dos partes: el <strong>caso base</strong> (condición de parada que evita la recursión infinita) y el <strong>caso recursivo</strong> (donde la función se llama con un problema más pequeño). Sin caso base la función entraría en recursión infinita y provocaría un error de <em>stack overflow</em>.</p>
 <pre><code>function factorial(n) {
   if (n <= 1) return 1;       // caso base
   return n * factorial(n - 1); // caso recursivo

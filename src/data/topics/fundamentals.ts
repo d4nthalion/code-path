@@ -3,7 +3,8 @@ import type { Topic } from '../../types';
 const theory = {
   javascript: `
 <h2>Variables y tipos de datos</h2>
-<p>En JavaScript usamos <code>let</code> (reasignable), <code>const</code> (constante) y <code>var</code> (evitar en código moderno).</p>
+<p>Una <strong>variable</strong> es un espacio reservado en la memoria del ordenador donde se almacena un dato que puede cambiar durante la ejecución del programa. Cada variable tiene un nombre (identificador), un tipo y un valor. Una <strong>constante</strong> es igual, pero su valor permanece invariable durante toda la ejecución.</p>
+<p>En JavaScript usamos <code>let</code> (reasignable), <code>const</code> (constante) y <code>var</code> (evitar en código moderno). Los tipos básicos son: <strong>string</strong> (texto), <strong>number</strong> (número), <strong>boolean</strong> (verdadero/falso), <strong>null</strong> (ausencia intencional de valor) y <strong>undefined</strong> (variable declarada pero no asignada).</p>
 <pre><code>let nombre = "Ana";       // string
 const PI = 3.14159;       // number (constante)
 let edad = 25;            // number
@@ -12,6 +13,7 @@ let nada = null;          // null (ausencia intencional)
 let sinValor;             // undefined (sin asignar)</code></pre>
 
 <h2>Operadores aritméticos</h2>
+<p>Los <strong>operadores</strong> son símbolos que realizan operaciones sobre uno o más valores (operandos). Los operadores aritméticos producen resultados numéricos. El operador <strong>módulo</strong> (<code>%</code>) es especialmente útil: devuelve el resto de la división entera (por ejemplo, para saber si un número es par o impar).</p>
 <pre><code>let a = 10, b = 3;
 a + b   // 13   (suma)
 a - b   // 7    (resta)
@@ -22,11 +24,13 @@ a ** b  // 1000 (potencia)
 Math.floor(a / b) // 3  (división entera)</code></pre>
 
 <h2>Prioridad de operadores</h2>
+<p>Cuando una expresión contiene varios operadores, el orden de evaluación sigue reglas de <strong>prioridad</strong> (precedencia). Los <strong>paréntesis</strong> tienen la mayor prioridad y permiten forzar cualquier orden. La multiplicación y división se evalúan antes que la suma y la resta. Ante operadores de igual prioridad, se evalúa de izquierda a derecha.</p>
 <pre><code>2 + 3 * 4    // 14  (*, / antes que +, -)
 (2 + 3) * 4  // 20  (paréntesis primero)
 10 % 3 + 1   // 2   (% igual prioridad que *)</code></pre>
 
 <h2>Operadores de comparación y lógicos</h2>
+<p>Los <strong>operadores relacionales</strong> comparan dos valores y devuelven un <strong>booleano</strong> (verdadero o falso). Los <strong>operadores lógicos</strong> (AND, OR, NOT) permiten combinar o invertir condiciones booleanas para construir expresiones más complejas.</p>
 <pre><code>// Comparación (devuelven boolean)
 5 === 5   // true  (igual valor Y tipo — usar siempre)
 5 == "5"  // true  (igual valor, distinto tipo — evitar)
@@ -43,6 +47,7 @@ null ?? "default"  // "default" (nullish coalescing)
 valor && valor.prop // no falla si valor es null/undefined</code></pre>
 
 <h2>Conversión de tipos</h2>
+<p>Cada lenguaje permite convertir datos de un tipo a otro. La conversión <strong>implícita</strong> (coerción) la realiza el lenguaje automáticamente. La conversión <strong>explícita</strong> (cast) la fuerza el programador. Siempre que sea posible, usa conversión explícita para evitar comportamientos inesperados.</p>
 <pre><code>Number("42")      // 42
 Number("hola")    // NaN
 String(42)        // "42"
@@ -53,6 +58,7 @@ parseInt("3.7")   // 3
 parseFloat("3.7") // 3.7</code></pre>
 
 <h2>Salida por consola</h2>
+<p>Para que un programa comunique sus resultados al usuario, necesita instrucciones de <strong>salida</strong>. En JavaScript, <code>console.log()</code> imprime en la consola del navegador o de Node.js. Los <strong>template literals</strong> (cadenas con backtick <code>`</code>) permiten incrustar expresiones directamente en el texto.</p>
 <pre><code>console.log("Hola");
 console.log(\`Nombre: \${nombre}, Edad: \${edad}\`);  // template literal
 console.log(typeof nombre);  // "string"</code></pre>
@@ -60,7 +66,7 @@ console.log(typeof nombre);  // "string"</code></pre>
 
   python: `
 <h2>Variables y tipos de datos</h2>
-<p>Python usa tipado dinámico: el tipo se infiere del valor asignado. No se declara el tipo explícitamente.</p>
+<p>Una <strong>variable</strong> es un espacio en memoria donde se almacena un dato. En Python el tipado es <strong>dinámico</strong>: el tipo se determina automáticamente según el valor asignado y puede cambiar en tiempo de ejecución. Los tipos básicos son <code>str</code>, <code>int</code>, <code>float</code>, <code>bool</code> y <code>None</code>.</p>
 <pre><code>nombre = "Ana"        # str
 pi = 3.14159          # float
 edad = 25             # int
@@ -68,6 +74,7 @@ activo = True         # bool (mayúscula)
 nada = None           # None (equivale a null)</code></pre>
 
 <h2>Operadores aritméticos</h2>
+<p>Python distingue entre <strong>división real</strong> (<code>/</code>, siempre devuelve float) y <strong>división entera</strong> (<code>//</code>, trunca los decimales). El operador <code>**</code> calcula potencias. El módulo (<code>%</code>) devuelve el resto de la división entera, muy útil para comprobar divisibilidad.</p>
 <pre><code>a, b = 10, 3
 a + b    # 13
 a - b    # 7
@@ -78,12 +85,14 @@ a % b    # 1   (módulo)
 a ** b   # 1000 (potencia)</code></pre>
 
 <h2>Prioridad de operadores</h2>
+<p>Python sigue las mismas reglas matemáticas de precedencia. Atención: en Python <code>-2 ** 2</code> da <code>-4</code> porque la potencia <code>**</code> tiene mayor prioridad que el menos unario. Usa paréntesis para evitar ambigüedades.</p>
 <pre><code>2 + 3 * 4    # 14
 (2 + 3) * 4  # 20
 -2 ** 2      # -4  (** tiene más prioridad que unario -)
 (-2) ** 2    # 4</code></pre>
 
 <h2>Operadores de comparación y lógicos</h2>
+<p>En Python los operadores lógicos se escriben como palabras (<code>and</code>, <code>or</code>, <code>not</code>) en vez de símbolos. Una característica única de Python es el <strong>encadenamiento de comparaciones</strong>: <code>1 &lt; x &lt; 10</code> comprueba simultáneamente las dos condiciones.</p>
 <pre><code># Comparación
 5 == 5    # True
 5 != 3    # True
@@ -96,6 +105,7 @@ True or False    # True
 not True         # False</code></pre>
 
 <h2>Conversión de tipos</h2>
+<p>Python proporciona funciones integradas para convertir entre tipos: <code>int()</code>, <code>float()</code>, <code>str()</code>, <code>bool()</code>. La conversión de <code>float</code> a <code>int</code> <strong>trunca</strong> los decimales (no redondea). La función <code>input()</code> siempre devuelve <code>str</code>, por lo que hay que convertirla si se espera un número.</p>
 <pre><code>int("42")       # 42
 int(3.9)        # 3  (trunca, no redondea)
 float("3.14")   # 3.14
@@ -105,6 +115,7 @@ bool("")        # False
 bool("hola")    # True</code></pre>
 
 <h2>Entrada y salida</h2>
+<p><code>print()</code> muestra datos por pantalla. Los <strong>f-strings</strong> (desde Python 3.6) son la forma más cómoda de formatear texto: se antepone <code>f</code> a la cadena y las expresiones se escriben entre llaves. <code>input()</code> lee texto del teclado y siempre devuelve un <code>str</code>.</p>
 <pre><code>print("Hola")
 print(f"Nombre: {nombre}, Edad: {edad}")   # f-string
 nombre = input("¿Cómo te llamas? ")        # siempre devuelve str
@@ -114,7 +125,7 @@ print(type(nombre))  # &lt;class 'str'&gt;</code></pre>
 
   java: `
 <h2>Variables y tipos de datos</h2>
-<p>Java es fuertemente tipado: debes declarar el tipo de cada variable. Los tipos primitivos NO son objetos.</p>
+<p>Java es un lenguaje de <strong>tipado estático y fuerte</strong>: el tipo de cada variable debe declararse explícitamente y no puede cambiar. Los <strong>tipos primitivos</strong> (<code>int</code>, <code>double</code>, <code>boolean</code>...) se almacenan directamente en la pila y NO son objetos. Los tipos referencia (como <code>String</code>) son objetos que viven en el heap.</p>
 <pre><code>// Primitivos
 int    edad    = 25;
 double salario = 1500.50;
@@ -127,6 +138,7 @@ float  pi = 3.14f;
 String nombre = "Ana";  // String es una clase</code></pre>
 
 <h2>Operadores aritméticos</h2>
+<p>En Java la división entre dos <code>int</code> produce un resultado <code>int</code> (división entera, se descarta el decimal). Para obtener un resultado decimal hay que hacer un <strong>cast</strong> a <code>double</code>: <code>(double) a / b</code>. Ten cuidado con el <strong>desbordamiento</strong> (overflow): si el resultado supera el rango del tipo, se produce un error silencioso.</p>
 <pre><code>int a = 10, b = 3;
 a + b   // 13
 a - b   // 7
@@ -136,6 +148,7 @@ a % b   // 1
 (double) a / b  // 3.333... (cast a double)</code></pre>
 
 <h2>Prioridad y cast</h2>
+<p>Java permite dos tipos de conversión: <strong>widening</strong> (implícita, de tipo menor a mayor, ej. <code>int</code> → <code>double</code>) y <strong>narrowing</strong> (explícita, requiere cast, puede perder información). El cast se escribe poniendo el tipo destino entre paréntesis antes del valor.</p>
 <pre><code>// División entera vs real
 int x = 7, y = 2;
 System.out.println(x / y);          // 3
@@ -160,6 +173,7 @@ true || false  // true
 !true          // false</code></pre>
 
 <h2>Conversión de tipos</h2>
+<p>Para convertir entre <code>String</code> y número usamos métodos estáticos de las clases envoltorio (<code>Integer</code>, <code>Double</code>...). Para la salida formateada, <code>System.out.printf()</code> usa especificadores como <code>%d</code> (entero), <code>%f</code> (decimal), <code>%s</code> (texto) y <code>%n</code> (salto de línea).</p>
 <pre><code>// Implícita (widening): int → long → double
 int i = 42;
 double d = i;  // OK, automático
@@ -183,7 +197,7 @@ System.out.printf("Precio: %.2f%n", 3.14159);</code></pre>
 
   cpp: `
 <h2>Variables y tipos de datos</h2>
-<p>C++ es fuertemente tipado. Los tipos tienen tamaños fijos en memoria.</p>
+<p>C++ es de <strong>tipado estático</strong>: el tipo se declara en tiempo de compilación. Los tipos tienen tamaños fijos dependientes de la plataforma (<code>int</code>: 4 bytes, <code>double</code>: 8 bytes). Desde C++11 se puede usar <code>auto</code> para que el compilador infiera el tipo, pero el tipo sigue siendo fijo en tiempo de compilación.</p>
 <pre><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -200,6 +214,7 @@ auto x = 42;      // int
 auto y = 3.14;    // double</code></pre>
 
 <h2>Operadores aritméticos</h2>
+<p>Al igual que en Java, la división entre enteros en C++ produce un entero. Para obtener un resultado decimal, al menos uno de los operandos debe ser <code>double</code> o <code>float</code>, o se debe hacer un cast explícito. El operador módulo <code>%</code> solo funciona con enteros.</p>
 <pre><code>int a = 10, b = 3;
 a + b    // 13
 a - b    // 7
@@ -211,6 +226,7 @@ double da = 10.0;
 da / b   // 3.333... (mixto → double)</code></pre>
 
 <h2>Conversión de tipos (cast)</h2>
+<p>C++ ofrece varios tipos de cast. El <strong>cast estilo C</strong> <code>(tipo)</code> es rápido pero poco seguro. El <strong>cast de C++</strong> <code>static_cast&lt;tipo&gt;()</code> es más explícito y seguro. Para convertir entre <code>string</code> y número se usan las funciones <code>stoi()</code>, <code>stod()</code> y <code>to_string()</code> (desde C++11).</p>
 <pre><code>// C-style cast
 int a = 7, b = 2;
 double resultado = (double)a / b;  // 3.5
@@ -237,6 +253,7 @@ true || false  // true
 !true          // false</code></pre>
 
 <h2>Entrada y salida</h2>
+<p><code>cout</code> (salida) y <code>cin</code> (entrada) son objetos de stream de la librería <code>&lt;iostream&gt;</code>. El operador <code>&lt;&lt;</code> envía datos a <code>cout</code>; el operador <code>&gt;&gt;</code> lee datos de <code>cin</code>. <code>getline(cin, variable)</code> lee una línea completa incluyendo espacios, a diferencia de <code>cin &gt;&gt;</code> que para en el primer espacio.</p>
 <pre><code>cout &lt;&lt; "Hola" &lt;&lt; endl;
 cout &lt;&lt; "Edad: " &lt;&lt; edad &lt;&lt; endl;
 
@@ -249,7 +266,7 @@ getline(cin, linea);  // lee línea completa</code></pre>
 
   csharp: `
 <h2>Variables y tipos de datos</h2>
-<p>C# es fuertemente tipado con inferencia opcional (<code>var</code>). Todos los tipos heredan de <code>object</code>.</p>
+<p>C# es de <strong>tipado estático y fuerte</strong>, con inferencia de tipo opcional mediante <code>var</code>. A diferencia de Java, en C# <strong>todos</strong> los tipos (incluso los primitivos) heredan de <code>object</code>, lo que permite un sistema de tipos unificado. <code>string</code> es un alias de <code>System.String</code> y los tipos nullable (con <code>?</code>) permiten que una variable de tipo valor también pueda ser <code>null</code>.</p>
 <pre><code>int    edad    = 25;
 double salario = 1500.50;
 float  pi      = 3.14f;
@@ -266,6 +283,7 @@ var s = "hola";  // string
 int? edadOpcional = null;  // int que puede ser null</code></pre>
 
 <h2>Operadores aritméticos</h2>
+<p>C# sigue las mismas reglas que Java: la división entre enteros produce un entero. El cast explícito <code>(double)</code> fuerza la división real. C# también incluye el tipo <code>decimal</code> (de 128 bits) para cálculos financieros donde la precisión es crítica.</p>
 <pre><code>int a = 10, b = 3;
 a + b    // 13
 a - b    // 7
@@ -276,6 +294,7 @@ a % b    // 1
 (double)a / b  // 3.333... (cast)</code></pre>
 
 <h2>Conversión de tipos</h2>
+<p>C# ofrece <code>int.Parse()</code> y el más seguro <code>int.TryParse()</code> que devuelve <code>bool</code> en vez de lanzar excepción si la cadena no es válida. Los métodos de formato como <code>.ToString("F2")</code> permiten controlar la precisión de los decimales al mostrar números.</p>
 <pre><code>// Implícita (widening)
 int i = 42;
 double d = i;  // OK
@@ -308,6 +327,7 @@ string? val = null;
 string resultado = val ?? "defecto";  // "defecto"</code></pre>
 
 <h2>Entrada y salida</h2>
+<p><code>Console.WriteLine()</code> imprime con salto de línea; <code>Console.Write()</code> sin él. La <strong>interpolación de strings</strong> con <code>$"...{expresión}..."</code> es la forma más cómoda de formatear salida. Los especificadores de formato (<code>:F2</code>, <code>:N0</code>, <code>:C</code>) permiten controlar decimales, separadores de miles o formato de moneda.</p>
 <pre><code>Console.WriteLine("Hola");
 Console.WriteLine($"Nombre: {nombre}, Edad: {edad}");  // interpolación
 Console.Write("Sin salto de línea");

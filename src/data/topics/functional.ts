@@ -3,6 +3,7 @@ import type { Topic } from '../../types';
 const theory = {
   javascript: `
 <h2>Funciones puras e impuras</h2>
+<p>Una <strong>función pura</strong> cumple dos propiedades: 1) dado el mismo input, siempre devuelve el mismo output, y 2) no produce <em>efectos secundarios</em> (no modifica variables externas, no hace I/O, no muta sus argumentos). Las funciones puras son más fáciles de probar, razonar y depurar, porque su comportamiento es completamente predecible. Una función <strong>impura</strong> depende de o modifica el estado externo.</p>
 <pre><code>// PURA: mismo input → mismo output, sin efectos secundarios
 const sumar = (a, b) => a + b;
 const doblar = arr => arr.map(x => x * 2);  // no muta
@@ -12,6 +13,7 @@ let total = 0;
 const acumular = x => { total += x; };  // muta estado externo</code></pre>
 
 <h2>Inmutabilidad</h2>
+<p>La <strong>inmutabilidad</strong> es el principio de no modificar los datos originales, sino crear versiones nuevas con los cambios aplicados. Evita errores causados por mutaciones inesperadas del estado compartido, especialmente en código concurrente o en frameworks como React donde las mutaciones directas causan problemas de renderizado. El operador spread (<code>...</code>) facilita crear copias modificadas.</p>
 <pre><code>// Mal: mutación directa
 const arr = [1, 2, 3];
 arr.push(4);  // muta arr
@@ -25,6 +27,7 @@ const obj = { a: 1, b: 2 };
 const actualizado = { ...obj, b: 99, c: 3 };</code></pre>
 
 <h2>map, filter, reduce encadenados</h2>
+<p><code>map</code> transforma cada elemento de un array aplicando una función y devuelve un nuevo array del mismo tamaño. <code>filter</code> selecciona solo los elementos que cumplen una condición. <code>reduce</code> combina todos los elementos en un único valor acumulado. Encadenar estas tres operaciones forma el <strong>pipeline funcional</strong> fundamental: transforma → filtra → agrega, sin usar bucles explícitos.</p>
 <pre><code>const datos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const resultado = datos
@@ -33,6 +36,7 @@ const resultado = datos
   .reduce((acc, x) => acc + x, 0); // 220</code></pre>
 
 <h2>Currying y aplicación parcial</h2>
+<p>El <strong>currying</strong> convierte una función de N parámetros en una cadena de N funciones de un solo parámetro. Permite crear funciones especializadas a partir de una función más general mediante <strong>aplicación parcial</strong>: se fija uno o más argumentos y se obtiene una función nueva que acepta el resto. Esto facilita la reutilización y la composición.</p>
 <pre><code>// Currying: función que devuelve función
 const multiplicar = a => b => a * b;
 const doble = multiplicar(2);
@@ -47,6 +51,7 @@ const sumar10 = sumar.bind(null, 10);
 sumar10(5);  // 15</code></pre>
 
 <h2>Composición de funciones</h2>
+<p>La <strong>composición de funciones</strong> combina funciones simples para construir funciones más complejas: la salida de una función se convierte en la entrada de la siguiente. <code>pipe</code> aplica las funciones de izquierda a derecha (igual que una tubería); <code>compose</code> las aplica de derecha a izquierda (notación matemática). Es una alternativa a las variables intermedias y hace el flujo de transformación explícito.</p>
 <pre><code>const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
 const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
 
@@ -58,6 +63,7 @@ const proceso = pipe(doblar, sumarUno, alCuadrado);
 proceso(3);  // ((3*2)+1)^2 = 49</code></pre>
 
 <h2>Memoización</h2>
+<p>La <strong>memoización</strong> es una técnica de optimización que almacena (cachea) los resultados de llamadas a funciones costosas. Si la función se llama con los mismos argumentos, devuelve el resultado del caché en vez de recalcularlo. Es especialmente útil en recursión (como Fibonacci), donde muchos subproblemas se calculan repetidamente.</p>
 <pre><code>function memoizar(fn) {
   const cache = new Map();
   return function(...args) {
