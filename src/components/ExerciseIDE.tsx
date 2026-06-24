@@ -35,7 +35,7 @@ export function ExerciseIDE({ exercises, lang, theme, onComplete, onSkip, isComp
 
   const langConfig = LANGUAGES[lang];
   const dark = theme === 'dark';
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY ?? '';
+  const apiKey = import.meta.env.VITE_GROQ_API_KEY ?? '';
 
   async function handleRun() {
     setIsRunning(true);

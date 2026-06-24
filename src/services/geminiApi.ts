@@ -1,27 +1,18 @@
 import type { AIReviewResult } from '../types';
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
-export async function reviewCode(
+function buildPrompt(
   code: string,
   exerciseDescription: string,
   expectedConcept: string,
   executionOutput: string,
   executionError: string,
   exitCode: number,
-  apiKey: string
-): Promise<AIReviewResult> {
-  if (!apiKey) {
-    return {
-      passed: false,
-      feedback: 'No hay API key de Gemini configurada. Añade VITE_GEMINI_API_KEY en el archivo .env',
-      suggestions: ['Crea un archivo .env en la raíz del proyecto con: VITE_GEMINI_API_KEY=tu_key'],
-    };
-  }
-
+): string {
   const executionSuccess = exitCode === 0 && !executionError;
-
-  const prompt = `You are a programming exercise reviewer. Analyze the student's code submission.
+  return `You are a programming exercise reviewer. Analyze the student's code submission.
 
 ## Exercise
 ${exerciseDescription}
@@ -53,26 +44,10 @@ Respond ONLY with valid JSON (no markdown, no code blocks):
 }
 
 Be strict about the expected concept. If the exercise requires a specific construct (loop, recursion, OOP, etc.) and the student didn't use it, mark as failed.`;
+}
 
-  const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.2, maxOutputTokens: 512 },
-    }),
-  });
-
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error(`Gemini API error ${response.status}: ${err}`);
-  }
-
-  const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-
+function parseAIResponse(text: string): AIReviewResult {
   try {
-    // Strip any accidental markdown wrapping
     const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     return JSON.parse(clean) as AIReviewResult;
   } catch {
@@ -82,4 +57,47 @@ Be strict about the expected concept. If the exercise requires a specific constr
       suggestions: ['Intenta de nuevo'],
     };
   }
+}
+
+export async function reviewCode(
+  code: string,
+  exerciseDescription: string,
+  expectedConcept: string,
+  executionOutput: string,
+  executionError: string,
+  exitCode: number,
+  apiKey: string
+): Promise<AIReviewResult> {
+  if (!apiKey) {
+    return {
+      passed: false,
+      feedback: 'No hay API key de Groq configurada. Añade VITE_GROQ_API_KEY en el archivo .env',
+      suggestions: ['Obtén una key gratuita en console.groq.com → API Keys'],
+    };
+  }
+
+  const prompt = buildPrompt(code, exerciseDescription, expectedConcept, executionOutput, executionError, exitCode);
+
+  const response = await fetch(GROQ_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: GROQ_MODEL,
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.2,
+      max_tokens: 512,
+    }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Groq API error ${response.status}: ${err}`);
+  }
+
+  const data = await response.json();
+  const text = data.choices?.[0]?.message?.content ?? '';
+  return parseAIResponse(text);
 }
