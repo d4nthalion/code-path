@@ -14,10 +14,6 @@ const USE_PISTON = !!import.meta.env.VITE_PISTON_URL;
 // Judge0 via RapidAPI
 const JUDGE0_KEY = import.meta.env.VITE_JUDGE0_KEY as string | undefined;
 
-// JDoodle
-const JDOODLE_CLIENT_ID = import.meta.env.VITE_JDOODLE_CLIENT_ID as string | undefined;
-const JDOODLE_CLIENT_SECRET = import.meta.env.VITE_JDOODLE_CLIENT_SECRET as string | undefined;
-
 // JDoodle language configs
 const JDOODLE_LANGUAGES: Record<Language, { language: string; versionIndex: string }> = {
   javascript: { language: 'nodejs',  versionIndex: '4' },
@@ -73,12 +69,12 @@ async function executeJDoodle(langId: Language, files: PistonFile[], stdin = '')
   const cfg = JDOODLE_LANGUAGES[langId];
   const script = files.map(f => f.content).join('\n\n');
 
-  const res = await fetch('https://api.jdoodle.com/v1/execute', {
+  // Proxied through Vite (dev) or Cloudflare Pages Function (prod)
+  // Credentials injected server-side (Vite middleware in dev, Pages Function in prod)
+  const res = await fetch('/api/execute', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      clientId: JDOODLE_CLIENT_ID,
-      clientSecret: JDOODLE_CLIENT_SECRET,
       script,
       language: cfg.language,
       versionIndex: cfg.versionIndex,
@@ -139,7 +135,7 @@ async function executeJudge0(langId: Language, files: PistonFile[], stdin = ''):
   };
 }
 
-// --- Public entry point (priority: Piston > JDoodle > Judge0) ---
+// --- Public entry point (priority: Piston > Judge0 > JDoodle) ---
 
 export async function executeCode(
   langId: Language,
@@ -148,8 +144,8 @@ export async function executeCode(
   stdin = ''
 ): Promise<ExecutionResult> {
   if (USE_PISTON) return executePiston(pistonName, files, stdin);
-  if (JDOODLE_CLIENT_ID && JDOODLE_CLIENT_SECRET) return executeJDoodle(langId, files, stdin);
   if (JUDGE0_KEY) return executeJudge0(langId, files, stdin);
+  return executeJDoodle(langId, files, stdin); // default: JDoodle via /api/execute
   throw new Error(
     'No hay proveedor de ejecución configurado. Añade VITE_JDOODLE_CLIENT_ID y VITE_JDOODLE_CLIENT_SECRET en el .env'
   );
