@@ -51,6 +51,7 @@ function jdoodleProxy(): Plugin {
 }
 
 export default defineConfig({
+  base: '/codepath/',
   plugins: [react(), tailwindcss(), jdoodleProxy()],
   server: {
     proxy: {
