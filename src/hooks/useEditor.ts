@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { Language } from '../types';
 import { LANGUAGES } from '../data/languages';
 
@@ -17,6 +17,12 @@ export function useEditor(lang: Language, starterCode: string) {
   const [activeFile, setActiveFile] = useState(langConfig.defaultFile);
 
   const activeContent = files.find(f => f.name === activeFile)?.content ?? '';
+
+  // Reset editor when starterCode or lang changes (e.g. switching exercises)
+  useEffect(() => {
+    setFiles([{ name: langConfig.defaultFile, content: starterCode, language: langConfig.monacoLang }]);
+    setActiveFile(langConfig.defaultFile);
+  }, [starterCode, lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateFile = useCallback((name: string, content: string) => {
     setFiles(prev => prev.map(f => f.name === name ? { ...f, content } : f));

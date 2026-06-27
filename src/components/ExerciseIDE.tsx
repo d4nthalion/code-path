@@ -113,10 +113,10 @@ export function ExerciseIDE({ exercises, lang, theme, onComplete, onSkip, isComp
               <CheckCircle size={12} className={dark ? 'text-green-400' : 'text-green-500'} />
             )}
           </div>
-          <h3 className={`font-semibold text-sm truncate ${dark ? 'text-slate-200' : 'text-slate-800'}`}>
+          <h3 className={`font-semibold text-base ${dark ? 'text-cyan-300' : 'text-cyan-700'}`}>
             {exercise.title}
           </h3>
-          <p className={`text-xs mt-0.5 line-clamp-2 ${dark ? 'text-slate-500' : 'text-slate-500'}`}>
+          <p className={`text-sm mt-1 leading-relaxed whitespace-pre-line ${dark ? 'text-slate-300' : 'text-slate-700'}`}>
             {exercise.instructions}
           </p>
         </div>
